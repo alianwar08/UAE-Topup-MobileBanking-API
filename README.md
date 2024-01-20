@@ -1,4 +1,4 @@
-### README for UAE Top-Up Mobile Banking API
+### UAE Top-Up Mobile Banking API
 
 #### Overview
 

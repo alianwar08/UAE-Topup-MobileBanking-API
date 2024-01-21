@@ -31,9 +31,41 @@ Adopting the **Service Locator pattern** for dynamic dependency management, the 
 - **SQL Server**: A dependable choice for scalable database management.
 - **NUnit**: Provides a robust framework for comprehensive unit testing.
 
+
+### Assumptions and Considerations
+
+These assumptions have guided the design and implementation of the Mobile Banking API, providing a framework for understanding decisions made during development and setting expectations for future enhancements or modifications.
+
+- **User Authentication**: The API assumes that users are authenticated before interaction, although specific authentication mechanisms are not detailed within the project scope.
+
+- **Beneficiary Uniqueness**: Each beneficiary is considered unique per user, identified potentially by a combination of nickname and phone number, or solely by phone number.
+
+- **Concurrency Handling**: The project includes mechanisms to handle concurrent transactions, particularly important for balance updates and top-up processing.
+
+- **Top-Up Transaction Atomicity**: It is assumed that top-up transactions are atomic, ensuring complete success or failure without partial state changes.
+
+- **Rate Limiting and API Security**: Basic rate limiting and security measures are assumed to be in place to safeguard against abuse, although specifics like API throttling and DDoS protection are not explicitly covered.
+
+- **User Balance Management**: Interaction with an external service for real-time user balance management is assumed, allowing for balance checks and updates.
+
+- **Data Validation and Sanitization**: There is an implicit assumption that all user inputs undergo validation and data sanitization to prevent common security vulnerabilities.
+
+- **API Error Handling**: A standardized error handling approach in the API is assumed, ensuring uniform error response formats.
+
+- **Database Schema and Relationships**: The database schema and relationships are assumed to be normalized with appropriate indexing and constraints for data integrity and performance optimization.
+
+- **Logging and Monitoring**: The project is presumed to include basic logging of API requests and errors for effective monitoring and debugging.
+
+- **Time Zone Handling**: All date and time calculations are assumed to be based on a specific time zone, likely the local time zone of the UAE or UTC.
+
+- **Beneficiary Inactivity Rules**: There are no explicit rules assumed regarding the inactivity or deletion of beneficiaries, with beneficiaries remaining active unless removed by the user.
+
+- **API Pagination and Data Limits**: Given the specified maximum number of beneficiaries and transactions, pagination or data limits for beneficiary listings or transaction history are not deemed necessary.
+
+
 ### NUnit Test Scenarios
 
-#### Verified User Transaction Tests
+## Verified User Transaction Tests
 
 1. **Over Balance Failure Test (`Test000_Verified_OverBalance_Fail`)**:
    - **Scenario**: Verifies that a top-up transaction for a verified user fails when the user's balance is insufficient.
@@ -50,7 +82,7 @@ Adopting the **Service Locator pattern** for dynamic dependency management, the 
    - **Amounts**: Multiple transactions totaling over AED 1000 (e.g., five AED 100 transactions followed by one AED 75 and one AED 30 transaction) for a single beneficiary within a month.
    - **Expectation**: The final transaction(s) should fail, ensuring adherence to the monthly limit of AED 1000 per beneficiary.
 
-#### Unverified User Transaction Tests
+## Unverified User Transaction Tests
 
 1. **Over Balance Failure Test (`Test000_UnVerified_OverBalance_Fail`)**:
    - **Scenario**: Similar to the verified user test but for an unverified user. Validates the transaction failure when the balance is low.
@@ -67,13 +99,13 @@ Adopting the **Service Locator pattern** for dynamic dependency management, the 
    - **Amounts**: Repeated transactions totaling over AED 500 for a single beneficiary within a month.
    - **Expectation**: Transactions exceeding the AED 500 limit should be declined, validating the strict limit for unverified users.
 
-#### Beneficiary Management Tests
+## Beneficiary Management Tests
 
 1. **Addition and Validation of Beneficiaries**:
    - **Scenario**: Tests adding up to 5 beneficiaries, ensuring correct validation for each addition. Includes checks for invalid data like excessively long nicknames or invalid phone numbers.
    - **Expectation**: Valid beneficiaries should be added successfully, while invalid additions should be declined.
 
-#### Top-Up Options Tests
+## Top-Up Options Tests
 
 1. **Validation of Top-Up Options**:
    - **Scenario**: Tests the API's capability to display and process various predefined top-up options (AED 5, AED 10, AED 20, AED 30, AED 50, AED 75, AED 100).

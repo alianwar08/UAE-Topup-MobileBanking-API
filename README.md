@@ -1,4 +1,4 @@
-### UAE Top-Up Mobile Banking API
+## UAE Top-Up Mobile Banking API
 
 #### Overview
 
@@ -32,7 +32,7 @@ Adopting the **Service Locator pattern** for dynamic dependency management, the 
 - **NUnit**: Provides a robust framework for comprehensive unit testing.
 
 
-### Assumptions and Considerations
+#### Assumptions and Considerations
 
 These assumptions have guided the design and implementation of the Mobile Banking API, providing a framework for understanding decisions made during development and setting expectations for future enhancements or modifications.
 
@@ -63,9 +63,9 @@ These assumptions have guided the design and implementation of the Mobile Bankin
 - **API Pagination and Data Limits**: Given the specified maximum number of beneficiaries and transactions, pagination or data limits for beneficiary listings or transaction history are not deemed necessary.
 
 
-### NUnit Test Scenarios
+#### NUnit Test Scenarios
 
-## Verified User Transaction Tests
+##### Verified User Transaction Tests
 
 1. **Over Balance Failure Test (`Test000_Verified_OverBalance_Fail`)**:
    - **Scenario**: Verifies that a top-up transaction for a verified user fails when the user's balance is insufficient.
@@ -82,7 +82,7 @@ These assumptions have guided the design and implementation of the Mobile Bankin
    - **Amounts**: Multiple transactions totaling over AED 1000 (e.g., five AED 100 transactions followed by one AED 75 and one AED 30 transaction) for a single beneficiary within a month.
    - **Expectation**: The final transaction(s) should fail, ensuring adherence to the monthly limit of AED 1000 per beneficiary.
 
-## Unverified User Transaction Tests
+##### Unverified User Transaction Tests
 
 1. **Over Balance Failure Test (`Test000_UnVerified_OverBalance_Fail`)**:
    - **Scenario**: Similar to the verified user test but for an unverified user. Validates the transaction failure when the balance is low.
@@ -99,13 +99,13 @@ These assumptions have guided the design and implementation of the Mobile Bankin
    - **Amounts**: Repeated transactions totaling over AED 500 for a single beneficiary within a month.
    - **Expectation**: Transactions exceeding the AED 500 limit should be declined, validating the strict limit for unverified users.
 
-## Beneficiary Management Tests
+##### Beneficiary Management Tests
 
 1. **Addition and Validation of Beneficiaries**:
    - **Scenario**: Tests adding up to 5 beneficiaries, ensuring correct validation for each addition. Includes checks for invalid data like excessively long nicknames or invalid phone numbers.
    - **Expectation**: Valid beneficiaries should be added successfully, while invalid additions should be declined.
 
-## Top-Up Options Tests
+##### Top-Up Options Tests
 
 1. **Validation of Top-Up Options**:
    - **Scenario**: Tests the API's capability to display and process various predefined top-up options (AED 5, AED 10, AED 20, AED 30, AED 50, AED 75, AED 100).

@@ -31,22 +31,53 @@ Adopting the **Service Locator pattern** for dynamic dependency management, the 
 - **SQL Server**: A dependable choice for scalable database management.
 - **NUnit**: Provides a robust framework for comprehensive unit testing.
 
-#### NUnit Test Cases
+### NUnit Test Scenarios
 
-Our test suite ensures:
-- **Transaction Limits for Verification Status**: Validation of transaction limits for both verified and unverified users.
-- **Monthly Limit Compliance**: Testing adherence to the set monthly top-up limits.
-- **Beneficiary Management**: Ensuring correct addition and management of beneficiaries.
-- **Top-Up Option Integrity**: Verifying the availability and accuracy of top-up options.
+#### Verified User Transaction Tests
 
-#### Business Rules and Validations
+1. **Over Balance Failure Test (`Test000_Verified_OverBalance_Fail`)**:
+   - **Scenario**: Verifies that a top-up transaction for a verified user fails when the user's balance is insufficient.
+   - **Amount**: AED 100 attempted with an available balance of only AED 10.
+   - **Expectation**: Transaction should be declined due to insufficient funds.
 
-Key rules include:
-- **Beneficiary Limits**: Up to five active beneficiaries per user.
-- **Top-Up Limits**: AED 500 monthly limit per beneficiary for unverified users; AED 1000 for verified users.
-- **Monthly Transaction Cap**: AED 3000 limit across all beneficiaries.
-- **Balance Verification**: Mandatory balance checks before transactions.
-- **Transaction Fees**: A fixed charge of AED 1 per transaction.
+2. **Under Balance and Limit Success Test (`Test001_Verified_UnderBalanceUnderLimit_Success`)**:
+   - **Scenario**: Checks successful transaction processing for a verified user within their available balance and monthly limit.
+   - **Amount**: AED 100 top-up attempted with an available balance of AED 4000.
+   - **Expectation**: Transaction should be successful as it's within the user's balance and monthly limit.
+
+3. **Over Individual Monthly Limit Failure Test (`Test002_Verified_OverIndividualMonthlyLimit_Fail`)**:
+   - **Scenario**: Ensures that cumulative top-up transactions for a verified user do not exceed the monthly limit per beneficiary.
+   - **Amounts**: Multiple transactions totaling over AED 1000 (e.g., five AED 100 transactions followed by one AED 75 and one AED 30 transaction) for a single beneficiary within a month.
+   - **Expectation**: The final transaction(s) should fail, ensuring adherence to the monthly limit of AED 1000 per beneficiary.
+
+#### Unverified User Transaction Tests
+
+1. **Over Balance Failure Test (`Test000_UnVerified_OverBalance_Fail`)**:
+   - **Scenario**: Similar to the verified user test but for an unverified user. Validates the transaction failure when the balance is low.
+   - **Amount**: AED 100 attempted with an available balance of AED 10.
+   - **Expectation**: Transaction should fail due to insufficient balance.
+
+2. **Under Balance and Limit Success Test (`Test001_UnVerified_UnderBalanceUnderLimit_Success`)**:
+   - **Scenario**: Checks transaction success for an unverified user within their lower balance and monthly limit.
+   - **Amount**: AED 100 top-up attempted with an available balance of AED 4000.
+   - **Expectation**: Transaction should be successful, falling within the unverified user's reduced limit.
+
+3. **Over Individual Monthly Limit Failure Test (`Test002_UnVerified_OverIndividualMonthlyLimit_Fail`)**:
+   - **Scenario**: Ensures the enforcement of a stricter monthly top-up limit for unverified users.
+   - **Amounts**: Repeated transactions totaling over AED 500 for a single beneficiary within a month.
+   - **Expectation**: Transactions exceeding the AED 500 limit should be declined, validating the strict limit for unverified users.
+
+#### Beneficiary Management Tests
+
+1. **Addition and Validation of Beneficiaries**:
+   - **Scenario**: Tests adding up to 5 beneficiaries, ensuring correct validation for each addition. Includes checks for invalid data like excessively long nicknames or invalid phone numbers.
+   - **Expectation**: Valid beneficiaries should be added successfully, while invalid additions should be declined.
+
+#### Top-Up Options Tests
+
+1. **Validation of Top-Up Options**:
+   - **Scenario**: Tests the API's capability to display and process various predefined top-up options (AED 5, AED 10, AED 20, AED 30, AED 50, AED 75, AED 100).
+   - **Expectation**: All options should be presented accurately, and the system should correctly process the selected top-up amounts.
 
 #### Configuration
 
